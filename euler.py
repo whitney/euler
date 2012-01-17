@@ -246,6 +246,28 @@ class P6(Euler):
 		elapsed = (time.time() - start)
 		print "soln0: %s, time: %s" % (answer, elapsed)
 
+class P7(Euler):
+	"""By listing the first six prime numbers: 
+	2, 3, 5, 7, 11, and 13, we can see that the 
+	6th prime is 13. What is the 10,001st prime number?
+	"""
+		
+	def soln0(self):
+		#return self.sieve(104750)[-1]
+		init = 10001
+		nth_primes = self.sieve(init)
+		while len(nth_primes) < 10001:
+			init *= 20
+			nth_primes = self.sieve(init)
+
+		return nth_primes[10001-1]
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
 if __name__ == "__main__":
 	if len(sys.argv) != 2:
 		usg =  "usage: euler.py <problem-class>\n"
