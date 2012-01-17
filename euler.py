@@ -195,11 +195,54 @@ class P5(Euler):
 	"""
 
 	def soln0(self):
-		return 12
+		"""Note that we only need to check for the 
+		smallest number divisible by all of [11, 20], 
+		since if that number n is evenly divisible by 
+		all of the numbers in the in [11, 20], it is 
+		guaranteed to be divisible by all of the numbers 
+		in [1, 10]."""
+		factors = set([11, 12, 13, 14, 15, 16, 17, 18, 19, 20])
+		i = 44
+		while i < math.factorial(20):
+			non_divisors = [d for d in factors if i % d != 0]
+			if len(non_divisors) == 0:
+				return i	
+			i += 11
+		return None
 
 	def test(self):
 		start = time.time()
-		answer, factors = self.soln0()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
+class P6(Euler):
+	"""The sum of the squares of the first ten natural numbers is:
+	1^2 + 2^2 + ... + 10^2 = 385
+	
+	The square of the sum of the first ten natural numbers is:
+	(1 + 2 + ... + 10)^2 = 552 = 3025
+
+	Hence the difference between the sum of the squares of the 
+	first ten natural numbers and the square of the sum is: 
+	3025 - 385 = 2640.
+
+	Find the difference between the sum of the squares of the 
+	first one hundred natural numbers and the square of the sum.
+	"""
+
+	def sum_of_squares(self, n):
+		return sum([math.pow(m, 2) for m in range(1, n+1)])	
+
+	def square_of_sum(self, n):
+		return math.pow(sum(range(1, n+1)), 2)
+		
+	def soln0(self):
+		return int(self.square_of_sum(100) - self.sum_of_squares(100))
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
 		elapsed = (time.time() - start)
 		print "soln0: %s, time: %s" % (answer, elapsed)
 
