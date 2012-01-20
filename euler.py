@@ -9,6 +9,11 @@ from operator import mul
 
 class Euler():
 
+	# -- I/O stuffs --
+	def read_lines(self, file):
+		f = open(file)
+		return f.readlines()
+
 	def sieve(self, limit):
 		"""return the list of primes 
 		less than or equal to the limit.
@@ -414,7 +419,7 @@ class P11(Euler):
 		anchor = self.GRID[row][column]
 		products = []
 
-		print "------- (row, column): (%s, %s) -------" % (row, column)
+		#print "------- (row, column): (%s, %s) -------" % (row, column)
 		# horizontal-left
 		if column - self.COUNT >= 0:
 			neighbors = self.GRID[row][column - self.COUNT:column + 1]
@@ -510,10 +515,13 @@ class P12(Euler):
 
 class P13(Euler):
 	"""Work out the first ten digits of the sum of 
-	the following one-hundred 50-digit numbers."""
+	the following one-hundred 50-digit numbers.
+	(See P13.txt)"""
 
 	def soln0(self):
-		return 12
+		lines = self.read_lines("P13.txt")
+		numbers = [long(n.replace("\n", "")) for n in lines]
+		return str(sum(numbers))[0:10]
 
 	def test(self):
 		start = time.time()
@@ -571,6 +579,50 @@ class P14(Euler):
 	def soln0(self):
 		#return self.collatz_seq(837799)
 		return self.collatz_soln()
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
+class P15(Euler):
+	"""Starting in the top left corner of a 22 grid, 
+	there are 6 routes (without backtracking) 
+	to the bottom right corner.
+
+	How many routes are there through a 2020 grid?"""
+
+	def soln0(self):
+		"""The number of unique paths to get to any vertex 
+		in the square grid (not counting back-tracking),
+		is equal to the sum of the number of unique paths 
+		there are to get to the vertex directly above it 
+		(if it exists), and directly left of it (if it exists)"""
+		grid_sums = [[] for i in range(21)]
+		grid_sums[0].append(1)
+		for row in range(21):
+			for column in range(21):
+				# if there exists a row above
+				# add its score to this vertex's tally
+				if row - 1 >= 0:
+					up_score = grid_sums[row - 1][column]
+				else:
+					up_score = 0
+				# if there exists a column to the left
+				# add its score to this vertex's tally
+				if column - 1 >= 0:
+					left_score = grid_sums[row][column - 1]
+				else:
+					left_score = 0
+				# set the current vertex's score
+				if up_score + left_score == 0:
+					vertex_score = 1
+				else:
+					vertex_score = up_score + left_score
+				grid_sums[row].append(vertex_score)
+			print grid_sums[row]
+		return grid_sums[20][20]
 
 	def test(self):
 		start = time.time()
