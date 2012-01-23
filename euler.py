@@ -9,7 +9,7 @@ from operator import mul
 
 class Euler():
 
-	# -- I/O stuffs --
+	# -- I/O stuffs -- #
 	def read_lines(self, file):
 		f = open(file)
 		return f.readlines()
@@ -597,8 +597,9 @@ class P15(Euler):
 		"""The number of unique paths to get to any vertex 
 		in the square grid (not counting back-tracking),
 		is equal to the sum of the number of unique paths 
-		there are to get to the vertex directly above it 
-		(if it exists), and directly left of it (if it exists)"""
+		that exist to get to the vertex directly above it 
+		(if it exists), and directly left of it (if it exists)
+		"""
 		grid_sums = [[] for i in range(21)]
 		grid_sums[0].append(1)
 		for row in range(21):
@@ -623,6 +624,165 @@ class P15(Euler):
 				grid_sums[row].append(vertex_score)
 			print grid_sums[row]
 		return grid_sums[20][20]
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
+class P16(Euler):
+	"""2^15 = 32768 and the sum of its digits is 
+	3 + 2 + 7 + 6 + 8 = 26. 
+	
+	What is the sum of the digits of the number 2^1000?
+	"""
+
+	def soln0(self):
+		"""The pow function supports arbitrary precision."""
+		exp_str = str(pow(2, 1000))
+		print exp_str
+		sum = 0
+		for char in exp_str:
+			sum += int(char)
+		return sum
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
+class P17(Euler):
+	"""If the numbers 1 to 5 are written out in words: 
+	one, two, three, four, five, then there are 
+	3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+
+	If all the numbers from 1 to 1000 (one thousand) 
+	inclusive were written out in words, how many letters would be used?
+
+	NOTE: Do not count spaces or hyphens. For example, 
+	342 (three hundred and forty-two) contains 23 letters 
+	and 115 (one hundred and fifteen) contains 20 letters. 
+	The use of "and" when writing out numbers is in compliance 
+	with British usage."""
+
+	MAP = {
+		1: 3, #one
+		2: 3, #two
+		3: 5, #three
+		4: 4, #four
+		5: 4, #five
+		6: 3, #six
+		7: 5, #seven
+		8: 5, #eight
+		9: 4, #nine
+		10: 3, #ten
+		11: 6, #eleven
+		12: 6, #twelve
+		13: 8, #thirteen
+		14: 8, #fourteen
+		15: 7, #fifteen
+		16: 7, #sixteen
+		17: 9, #seventeen
+		18: 8, #eighteen
+		19: 8, #nineteen
+		20: 6, #twenty
+		30: 6, #thirty
+		40: 5, #forty
+		50: 5, #fifty
+		60: 5, #sixty
+		70: 7, #seventy
+		80: 6, #eighty
+		90: 6, #ninety
+		100: 10, #one hundred
+		1000: 11, #one thousand
+	}
+
+	HUNDRED = 7 #len("hundred")
+
+	def tens(self, n):
+		if n == 0:
+			return 0
+		if self.MAP.has_key(n):
+			return self.MAP[n]
+		tens = (n/10)*10
+		ones = n % tens
+		return self.MAP[tens] + self.MAP[ones]
+
+	def soln0(self):
+		total = 0
+		for i in range(1, 1001):
+			length = 0
+			if i <= 20:
+				length += self.MAP[i]
+			elif i < 100:
+				length += self.tens(i)
+			elif i == 100:
+				length += self.MAP[i]
+			elif i < 1000:
+				hundreds = (i/100)*100
+				tens = i % hundreds
+				num_hundreds = hundreds/100 
+				length += self.MAP[num_hundreds] + self.HUNDRED + self.tens(tens)
+			elif i == 1000:
+				length += self.MAP[i]
+
+			if i > 100 and i < 1000 and i % 100 != 0:
+				# accounting for the "and" in 
+				# "nine hundred and seventy three"
+				length += 3
+
+			print i, length
+			total += length
+				
+		return total
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
+class P18(Euler):
+	"""By starting at the top of the triangle below and 
+	moving to adjacent numbers on the row below, the maximum 
+	total from top to bottom is 23.
+
+            3
+           7 4
+          2 4 6
+         8 5 9 3
+
+	That is, 3 + 7 + 4 + 9 = 23.
+
+	Find the maximum total from top to bottom of the triangle below:
+	"""
+
+	TRI = [
+		                            [75],
+		                          [95, 64],
+		                        [17, 47, 82],
+		                      [18, 35, 87, 10],
+		                    [20,  4, 82, 47, 65],
+		                  [19,  1, 23, 75,  3, 34],
+		                [88,  2, 77, 73,  7, 63, 67],
+		              [99, 65,  4, 28,  6, 16, 70, 92],
+		            [41, 41, 26, 56, 83, 40, 80, 70, 33],
+		          [41, 48, 72, 33, 47, 32, 37, 16, 94, 29],
+		        [53, 71, 44, 65, 25, 43, 91, 52, 97, 51, 14],
+		      [70, 11, 33, 28, 77, 73, 17, 78, 39, 68, 17, 57],
+		    [91, 71, 52, 38, 17, 14, 91, 43, 58, 50, 27, 29, 48],
+		  [63, 66,  4, 68, 89, 53, 67, 30, 73, 16, 69, 87, 40, 31],
+		[ 4, 62, 98, 27, 23,  9, 70, 98, 73, 93, 38, 53, 60,  4, 23]
+	]
+
+	def soln0(self):
+		"""The highest route to any node in the triangle is equal to:
+		max(highest route to left parent, highest route to right parent).
+		With this in mind we will keep a max route score cached for each node."""
+		node_scores = [[75]]
+		print self.TRI
 
 	def test(self):
 		start = time.time()
