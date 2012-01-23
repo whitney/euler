@@ -9,6 +9,28 @@ from operator import mul
 
 class Euler():
 
+	def tri_max_path(self, tri):
+		"""The highest route to any node in the triangle is equal to:
+		max(highest route to left parent, highest route to right parent).
+		With this in mind we will keep a max route score cached for each node.
+		"""
+		# after calculating the node-scores
+		# we return the max of the bottom row
+		for row in range(1, len(tri)):
+			for col in range(len(tri[row])):
+				if col == 0:
+					up_left = 0
+				else:
+					up_left = tri[row-1][col-1]
+
+				if col == len(tri[row]) - 1:
+					up_right = 0
+				else:
+					up_right = tri[row-1][col]
+
+				tri[row][col] = tri[row][col] + max(up_left, up_right)
+		return max(tri[len(tri) - 1])
+
 	# -- I/O stuffs -- #
 	def read_lines(self, file):
 		f = open(file)
@@ -778,11 +800,7 @@ class P18(Euler):
 	]
 
 	def soln0(self):
-		"""The highest route to any node in the triangle is equal to:
-		max(highest route to left parent, highest route to right parent).
-		With this in mind we will keep a max route score cached for each node."""
-		node_scores = [[75]]
-		print self.TRI
+		return self.tri_max_path(self.TRI)
 
 	def test(self):
 		start = time.time()
