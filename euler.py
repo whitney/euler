@@ -887,7 +887,7 @@ class P67(Euler):
 	"""
 
 	def soln0(self):
-		lines = self.read_lines("triangle.txt")
+		lines = self.read_lines("P67.txt")
 		tri = [line.split(" ") for line in lines]
 		return self.tri_max_path(tri)
 
