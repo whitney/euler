@@ -21,14 +21,14 @@ class Euler():
 				if col == 0:
 					up_left = 0
 				else:
-					up_left = tri[row-1][col-1]
+					up_left = int(tri[row-1][col-1])
 
 				if col == len(tri[row]) - 1:
 					up_right = 0
 				else:
-					up_right = tri[row-1][col]
+					up_right = int(tri[row-1][col])
 
-				tri[row][col] = tri[row][col] + max(up_left, up_right)
+				tri[row][col] = int(tri[row][col]) + max(up_left, up_right)
 		return max(tri[len(tri) - 1])
 
 	# -- I/O stuffs -- #
@@ -779,6 +779,11 @@ class P18(Euler):
 	That is, 3 + 7 + 4 + 9 = 23.
 
 	Find the maximum total from top to bottom of the triangle below:
+
+	NOTE: As there are only 16384 routes, it is possible to solve this 
+	problem by trying every route. However, Problem 67, is the same 
+	challenge with a triangle containing one-hundred rows; it cannot 
+	be solved by brute force, and requires a clever method! ;o)
 	"""
 
 	TRI = [
@@ -851,6 +856,40 @@ class P20(Euler):
 		for char in fact:
 			sum += int(char)
 		return sum
+
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
+class P67(Euler):
+	"""By starting at the top of the triangle below and 
+	moving to adjacent numbers on the row below, the maximum 
+	total from top to bottom is 23.
+
+            3
+           7 4
+          2 4 6
+         8 5 9 3
+
+	That is, 3 + 7 + 4 + 9 = 23.
+
+	Find the maximum total from top to bottom in triangle.txt 
+	(right click and 'Save Link/Target As...'), a 15K text file 
+	containing a triangle with one-hundred rows.
+
+	NOTE: This is a much more difficult version of Problem 18. 
+	It is not possible to try every route to solve this problem, 
+	as there are 2^99 altogether! If you could check one trillion (10^12) 
+	routes every second it would take over twenty billion years to 
+	check them all. There is an efficient algorithm to solve it. ;o)
+	"""
+
+	def soln0(self):
+		lines = self.read_lines("triangle.txt")
+		tri = [line.split(" ") for line in lines]
+		return self.tri_max_path(tri)
 
 	def test(self):
 		start = time.time()
