@@ -831,8 +831,42 @@ class P19(Euler):
 	the twentieth century (1 Jan 1901 to 31 Dec 2000)?
 	"""
 
+	# a map of month => [days, leap-year days]
+	MONTH_DAYS = {
+		1: [31],
+		2: [28, 29],
+		3: [31],
+		4: [30],
+		5: [31],
+		6: [30],
+		7: [31],
+		8: [31],
+		9: [30],
+		10: [31],
+		11: [30],
+		12: [31]
+	}
+
+	def leap_year(self, year):
+		return (year % 400 == 0) or (year % 4 == 0 and year % 100 != 0)
+
 	def soln0(self):
-		return 12
+		count = 0
+		day_count = 1
+		for year in range(1900, 2001):
+			leap = self.leap_year(year)
+			for month in range(1, 13):
+				if leap:
+					days = self.MONTH_DAYS[month][-1]
+				else:
+					days = self.MONTH_DAYS[month][0]
+				for day in range(1, days + 1):
+					#print ">>> year: %s, month: %s, day: %s, total-days: %s" % (year, month, day, day_count)
+					if year > 1900 and day_count % 7 == 0 and day == 1:
+						count += 1
+					day_count += 1
+				
+		return count
 
 	def test(self):
 		start = time.time()
