@@ -9,6 +9,12 @@ from operator import mul
 
 class Euler():
 
+	def test(self):
+		start = time.time()
+		answer = self.soln0()
+		elapsed = (time.time() - start)
+		print "soln0: %s, time: %s" % (answer, elapsed)
+
 	def tri_max_path(self, tri):
 		"""The highest route to any node in the triangle is equal to:
 		max(highest route to left parent, highest route to right parent).
@@ -105,12 +111,6 @@ class P1(Euler):
 				sum += i
 		return sum
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-		
 class P2(Euler):
 	"""By considering the terms in the Fibonacci 
 	sequence whose values do not exceed four million, 
@@ -119,7 +119,7 @@ class P2(Euler):
 	1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ...
 	"""
 
-	def fibLim(self, limit):
+	def soln0(self, limit):
 		a = 1
 		b = 2
 		sum = 0
@@ -133,7 +133,7 @@ class P2(Euler):
 
 	def test(self):
 		start = time.time()
-		answer = self.fibLim(4000000)
+		answer = self.soln0(4000000)
 		elapsed = (time.time() - start)
 		print "soln0: %s, time: %s" % (answer, elapsed)
 		
@@ -239,12 +239,6 @@ class P5(Euler):
 			i += 11
 		return None
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P6(Euler):
 	"""The sum of the squares of the first ten natural numbers is:
 	1^2 + 2^2 + ... + 10^2 = 385
@@ -269,12 +263,6 @@ class P6(Euler):
 	def soln0(self):
 		return int(self.square_of_sum(100) - self.sum_of_squares(100))
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P7(Euler):
 	"""By listing the first six prime numbers: 
 	2, 3, 5, 7, 11, and 13, we can see that the 
@@ -282,7 +270,6 @@ class P7(Euler):
 	"""
 		
 	def soln0(self):
-		#return self.sieve(104750)[-1]
 		init = 10001
 		nth_primes = self.sieve(init)
 		while len(nth_primes) < 10001:
@@ -290,12 +277,6 @@ class P7(Euler):
 			nth_primes = self.sieve(init)
 
 		return nth_primes[10001-1]
-
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
 
 class P8(Euler):
 	"""Find the greatest product of five consecutive digits in the 1000-digit number."""
@@ -336,12 +317,6 @@ class P8(Euler):
 			
 		return curr_best
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P9(Euler):
 	"""A Pythagorean triplet is a set of three natural numbers,
 	a < b < c, for which a^2 + b^2 = c^2
@@ -367,23 +342,11 @@ class P9(Euler):
 		a, b, c = self.find_pyth_triplets(1000)
 		return a*b*c
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P10(Euler):
 	"""Calculate the sum of all the primes below 2,000,000."""
 
 	def soln0(self):
 		return sum(self.sieve(2000000 - 1))
-
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
 
 class P11(Euler):
 	"""In the 2020 grid below, four numbers along a diagonal 
@@ -481,12 +444,6 @@ class P11(Euler):
 	def soln0(self):
 		return self.walk_grid()
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P12(Euler):
 	"""The sequence of triangle numbers is generated 
 	by adding the natural numbers. So the 7th triangle 
@@ -529,12 +486,6 @@ class P12(Euler):
 	def soln0(self):
 		return self.triangle_seq_soln(500)
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P13(Euler):
 	"""Work out the first ten digits of the sum of 
 	the following one-hundred 50-digit numbers.
@@ -544,12 +495,6 @@ class P13(Euler):
 		lines = self.read_lines("P13.txt")
 		numbers = [long(n.replace("\n", "")) for n in lines]
 		return str(sum(numbers))[0:10]
-
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
 
 class P14(Euler):
 	"""The following iterative sequence is defined for the set of positive integers:
@@ -599,14 +544,7 @@ class P14(Euler):
 		return best_start
 
 	def soln0(self):
-		#return self.collatz_seq(837799)
 		return self.collatz_soln()
-
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
 
 class P15(Euler):
 	"""Starting in the top left corner of a 22 grid, 
@@ -647,12 +585,6 @@ class P15(Euler):
 			print grid_sums[row]
 		return grid_sums[20][20]
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P16(Euler):
 	"""2^15 = 32768 and the sum of its digits is 
 	3 + 2 + 7 + 6 + 8 = 26. 
@@ -668,12 +600,6 @@ class P16(Euler):
 		for char in exp_str:
 			sum += int(char)
 		return sum
-
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
 
 class P17(Euler):
 	"""If the numbers 1 to 5 are written out in words: 
@@ -760,12 +686,6 @@ class P17(Euler):
 				
 		return total
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P18(Euler):
 	"""By starting at the top of the triangle below and 
 	moving to adjacent numbers on the row below, the maximum 
@@ -806,12 +726,6 @@ class P18(Euler):
 
 	def soln0(self):
 		return self.tri_max_path(self.TRI)
-
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
 
 class P19(Euler):
 	"""You are given the following information, 
@@ -868,12 +782,6 @@ class P19(Euler):
 				
 		return count
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 class P20(Euler):
 	"""n! means n * (n  1)  ...  3  2  1
 
@@ -891,11 +799,113 @@ class P20(Euler):
 			sum += int(char)
 		return sum
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
+class P21(Euler):
+	"""Let d(n) be defined as the sum of proper divisors of n 
+	(numbers less than n which divide evenly into n).
+	If d(a) = b and d(b) = a, where a != b, then a and b are 
+	an amicable pair and each of a and b are called amicable numbers.
+
+	For example, the proper divisors of 220 are 1, 2, 4, 5, 10, 
+	11, 20, 22, 44, 55 and 110; therefore d(220) = 284. 
+	The proper divisors of 284 are 1, 2, 4, 71 and 142; so d(284) = 220.
+
+	Evaluate the sum of all the amicable numbers under 10000.
+	"""
+
+	def amicable_pair(self, n, cache):
+		# d(a):
+		if cache.has_key(n):
+			# b:
+			divisors_sum = cache[n]
+		else:
+			divisors_sum = sum(self.factors(n)) - n
+			cache[n] = divisors_sum
+
+		# d(b):
+		if cache.has_key(divisors_sum):
+			new_divisors_sum = cache[divisors_sum]
+		else:
+			new_divisors_sum = sum(self.factors(divisors_sum)) - divisors_sum
+			cache[divisors_sum] = new_divisors_sum	
+
+		if new_divisors_sum == n and divisors_sum != n:
+			return n, divisors_sum
+
+	def soln0(self):
+		divisor_sums = {}
+		amicables = set()
+		for i in range(2, 10001):
+			amic_pair = self.amicable_pair(i, divisor_sums)
+			if amic_pair:
+				#print amic_pair
+				amicables.add(amic_pair[0])
+				amicables.add(amic_pair[1])
+		#print amicables
+		return sum(amicables)
+
+class P22(Euler):
+	"""Using names.txt (right click and 'Save Link/Target As...'), 
+	a 46K text file containing over five-thousand first names, 
+	begin by sorting it into alphabetical order. 
+	Then working out the alphabetical value for each name, 
+	multiply this value by its alphabetical position in the list 
+	to obtain a name score.
+
+	For example, when the list is sorted into alphabetical order, 
+	COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53, 
+	is the 938th name in the list. So, COLIN would obtain a score 
+	of 938 * 53 = 49714.
+
+	What is the total of all the name scores in the file?
+	"""
+
+	def names(self):
+		line = self.read_lines("P22.txt")[0]
+		names = line.split(",")
+		names = [name.replace('"', '') for name in names]
+		names.sort()
+		return names
+
+	def name_score(self, name, position):
+		score = sum(map(lambda a: ord(a) - ord('A') + 1, name))
+		total_score = score * position
+		#print name, score, position, total_score
+		return total_score
+		
+	def soln0(self):
+		cleaned_names = self.names()
+		#print cleaned_names
+		total = 0
+		for i in range(len(cleaned_names)):
+			total += self.name_score(cleaned_names[i], i + 1)
+		return total
+
+class P23(Euler):
+	"""A perfect number is a number for which the sum of 
+	its proper divisors is exactly equal to the number. 
+	For example, the sum of the proper divisors of 28 
+	would be 1 + 2 + 4 + 7 + 14 = 28, which means that 
+	28 is a perfect number.
+
+	A number n is called deficient if the sum of its proper 
+	divisors is less than n and it is called abundant if 
+	this sum exceeds n.
+
+	As 12 is the smallest abundant number, 1 + 2 + 3 + 4 + 6 = 16, 
+	the smallest number that can be written as the sum of two 
+	abundant numbers is 24. By mathematical analysis, it can be 
+	shown that all integers greater than 28123 can be written 
+	as the sum of two abundant numbers. However, this upper limit 
+	cannot be reduced any further by analysis even though it is 
+	known that the greatest number that cannot be expressed as the 
+	sum of two abundant numbers is less than this limit.
+
+	Find the sum of all the positive integers which cannot be 
+	written as the sum of two abundant numbers.
+	"""
+
+	def soln0(self):
+		return 12
 
 class P67(Euler):
 	"""By starting at the top of the triangle below and 
@@ -925,12 +935,6 @@ class P67(Euler):
 		tri = [line.split(" ") for line in lines]
 		return self.tri_max_path(tri)
 
-	def test(self):
-		start = time.time()
-		answer = self.soln0()
-		elapsed = (time.time() - start)
-		print "soln0: %s, time: %s" % (answer, elapsed)
-
 if __name__ == "__main__":
 	if len(sys.argv) != 2:
 		usg =  "usage: euler.py <problem-class>\n"
@@ -941,4 +945,3 @@ if __name__ == "__main__":
 	problem = sys.argv[1]
 	p = getattr(__import__("euler"), problem)()
 	p.test()
-
