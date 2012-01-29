@@ -65,6 +65,23 @@ class Euler():
 
 		return factors	
 
+	def prime_factors_with_mult(self, n):
+		"""Returns all the prime factors of a positive integer, 
+		with multiplicity. For example 8 --> [(2, 3)]
+		"""
+		fact_mult = {}
+		d = 2
+		while (n > 1):
+			while (n%d==0):
+				if fact_mult.has_key(d):
+					fact_mult[d] = fact_mult[d] + 1
+				else:
+					fact_mult[d] = 1
+				n /= d
+			d = d + 1
+
+		return [(fact, mult) for fact, mult in fact_mult.items()]	
+
 	def unique_prime_factors(self, n):
 		"Returns all the prime factors of a positive integer"
 		factors = set()
@@ -75,7 +92,7 @@ class Euler():
 				n /= d
 			d = d + 1
 
-		return factors	
+		return list(factors)	
 
 	def largest_prime_factor(self, n):
 		"Returns the largest prime factor of a positive integer"
@@ -98,6 +115,29 @@ class Euler():
 
 	def factors(self, n):
 		return list(self.gen_factors(n)) 
+
+	def gen_divisors(self, n):
+		"""see: 
+		http://stackoverflow.com/questions/171765/what-is-the-best-way-to-get-all-the-divisors-of-a-number
+		"""
+		factors = self.prime_factors_with_mult(n)
+		nfactors = len(factors)
+		f = [0] * nfactors
+		while True:
+			yield reduce(lambda x, y: x*y, [factors[x][0]**f[x] for x in range(nfactors)], 1)
+			i = 0
+			while True:
+				f[i] += 1
+				if f[i] <= factors[i][1]:
+					break
+				f[i] = 0
+				i += 1
+				if i >= nfactors:
+					return
+
+	def divisors(self, n):
+		#return set(self.factors(n)) | self.unique_prime_factors(n)
+		return list(self.gen_divisors(n))
 
 class P1(Euler):
 	"""Find the sum of all the multiples 
@@ -904,8 +944,26 @@ class P23(Euler):
 	written as the sum of two abundant numbers.
 	"""
 
+	def abundant(self, n):
+		divisors = self.divisors(n)
+		return sum(divisors) - n > n
+		
 	def soln0(self):
-		return 12
+		abundants = set()
+		for i in range(2, 28123):
+			if self.abundant(i):
+				abundants.add(i)
+		#print abundants
+
+		abundant_sums = set()
+		for i in abundants:
+			for j in abundants:
+				abundant_sums.add(i+j)
+		
+		window = set(range(1, 28123))
+		final = window - abundant_sums
+		#print final
+		return sum(final)
 
 class P67(Euler):
 	"""By starting at the top of the triangle below and 
